@@ -1,5 +1,9 @@
+import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
+import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:flutter/material.dart';
 import 'package:timer_trial/constants.dart';
+import 'package:timer_trial/pages/other_page.dart';
+import 'package:timer_trial/pages/zone.dart';
 
 void main(List<String> args) {
   runApp(MaterialApp(
@@ -15,27 +19,52 @@ class ClassifyTrial extends StatefulWidget {
 }
 
 class _ClassifyTrialState extends State<ClassifyTrial> {
+  Widget _currentPage = ZonePage();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'Classify Trial',
-          style: kGoogleSansTextStyle.copyWith(fontSize: 20),
+        bottomNavigationBar: CurvedNavigationBar(
+          buttonBackgroundColor: kPurpleColor2,
+          backgroundColor: kPurpleColor3,
+          color: kPurpleColor2,
+          onTap: (value) => {
+            if (value == 0)
+              {
+                setState(() {
+                  _currentPage = ZonePage();
+                })
+              }
+            else
+              {
+                setState(() {
+                  _currentPage = OtherPage();
+                })
+              }
+          },
+          items: [
+            CurvedNavigationBarItem(
+              child: Image.asset(
+                'assets/icons/icons8_tomato_96px_3.png',
+                height: 40,
+                width: 40,
+              ),
+              label: "Zone",
+              labelStyle: kGoogleSansTextStyle.copyWith(
+                  fontSize: 14, color: Colors.white),
+            ),
+            CurvedNavigationBarItem(
+                child: Icon(
+                  Icons.home_rounded,
+                  size: 40,
+                  color: Colors.white,
+                ),
+                label: "Other Page",
+                labelStyle: kGoogleSansTextStyle.copyWith(
+                    fontSize: 14, color: Colors.white)),
+          ],
         ),
-        elevation: 0,
-        backgroundColor: kPurpleColor2,
-      ),
-      backgroundColor: kPurpleColor3,
-      body: Container(
-        child: Center(
-          child: Text(
-            "<Add UI Here>",
-            style: kGoogleSansTextStyle,
-          ),
-        ),
-      ),
-    );
+        backgroundColor: kPurpleColor3,
+        body: _currentPage);
   }
 }

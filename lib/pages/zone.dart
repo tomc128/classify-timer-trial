@@ -12,16 +12,21 @@ class ZonePage extends StatefulWidget {
 class _ZonePageState extends State<ZonePage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text(
-          "<Zone Page>",
-          style: kGoogleSansTextStyle.copyWith(
-            fontSize: 20,
-            color: Colors.white,
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    return Stack(
+      children: [
+        Container(
+          height: 200,
+          decoration: BoxDecoration(
+            color: kHeaderPink,
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.elliptical(screenWidth / 2, 50),
+              bottomRight: Radius.elliptical(screenWidth / 2, 50),
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

@@ -76,6 +76,31 @@ class _ZonePageState extends State<ZonePage> {
                   ),
                 ),
               ),
+
+              // Buttons
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton.filled(
+                    color: Colors.white,
+                    onPressed: () {},
+                    icon: const Icon(Icons.refresh),
+                    iconSize: 17,
+                  ),
+                  IconButton.filled(
+                    color: Colors.white,
+                    onPressed: () {},
+                    icon: const Icon(Icons.play_arrow),
+                    iconSize: 35,
+                  ),
+                  IconButton.filled(
+                    color: Colors.white,
+                    onPressed: () {},
+                    icon: const Icon(Icons.edit),
+                    iconSize: 17,
+                  ),
+                ],
+              ),
             ],
           ),
         ),

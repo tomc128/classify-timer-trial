@@ -41,6 +41,7 @@ class _ZonePageState extends State<ZonePage> {
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Row(
                 children: [
@@ -59,6 +60,21 @@ class _ZonePageState extends State<ZonePage> {
                     style: kSFTextStyle.copyWith(fontSize: 10, color: Colors.white),
                   ),
                 ],
+              ),
+
+              // Clock
+              Container(
+                margin: const EdgeInsets.fromLTRB(75, 20, 75, 0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(1000),
+                  border: Border.all(color: homePink, width: 5),
+                ),
+                child: Center(
+                  child: Text(
+                    '25:00',
+                    style: kGoogleSansTextStyle.copyWith(fontSize: 33, color: Colors.white),
+                  ),
+                ),
               ),
             ],
           ),

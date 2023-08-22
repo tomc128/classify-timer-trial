@@ -17,12 +17,12 @@ class _ZonePageState extends State<ZonePage> {
     return Stack(
       children: [
         Container(
-          height: 200,
+          height: 190,
           decoration: BoxDecoration(
             color: kHeaderPink,
             borderRadius: BorderRadius.only(
-              bottomLeft: Radius.elliptical(screenWidth / 2, 50),
-              bottomRight: Radius.elliptical(screenWidth / 2, 50),
+              bottomLeft: Radius.elliptical(screenWidth / 2, 30),
+              bottomRight: Radius.elliptical(screenWidth / 2, 30),
             ),
           ),
           child: const Center(
@@ -52,19 +52,21 @@ class _ZonePageState extends State<ZonePage> {
                   const SizedBox(width: 10),
                   Text(
                     'SHORT BREAK',
-                    style: kSFTextStyle.copyWith(fontSize: 10, color: Colors.white),
+                    style: kSFTextStyle.copyWith(fontSize: 10, color: kPurpleColor2),
                   ),
                   const SizedBox(width: 10),
                   Text(
                     'LONG BREAK',
-                    style: kSFTextStyle.copyWith(fontSize: 10, color: Colors.white),
+                    style: kSFTextStyle.copyWith(fontSize: 10, color: kPurpleColor2),
                   ),
                 ],
               ),
 
               // Clock
               Container(
-                margin: const EdgeInsets.fromLTRB(75, 20, 75, 0),
+                margin: const EdgeInsets.fromLTRB(75, 20, 75, 20),
+                width: 190,
+                height: 190,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(1000),
                   border: Border.all(color: homePink, width: 5),
@@ -81,23 +83,35 @@ class _ZonePageState extends State<ZonePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton.filled(
-                    color: Colors.white,
-                    onPressed: () {},
-                    icon: const Icon(Icons.refresh),
-                    iconSize: 17,
+                  CircleAvatar(
+                    backgroundColor: kPurpleColor2,
+                    child: IconButton.filled(
+                      color: Colors.white,
+                      onPressed: () {},
+                      icon: const Icon(Icons.refresh),
+                      iconSize: 17,
+                    ),
                   ),
-                  IconButton.filled(
-                    color: Colors.white,
-                    onPressed: () {},
-                    icon: const Icon(Icons.play_arrow),
-                    iconSize: 35,
+                  const SizedBox(width: 15),
+                  CircleAvatar(
+                    backgroundColor: kHeaderPink,
+                    radius: 25,
+                    child: IconButton.filled(
+                      color: Colors.white,
+                      onPressed: () {},
+                      icon: const Icon(Icons.play_arrow),
+                      iconSize: 35,
+                    ),
                   ),
-                  IconButton.filled(
-                    color: Colors.white,
-                    onPressed: () {},
-                    icon: const Icon(Icons.edit),
-                    iconSize: 17,
+                  const SizedBox(width: 15),
+                  CircleAvatar(
+                    backgroundColor: kPurpleColor2,
+                    child: IconButton.filled(
+                      color: Colors.white,
+                      onPressed: () {},
+                      icon: const Icon(Icons.edit),
+                      iconSize: 17,
+                    ),
                   ),
                 ],
               ),

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:timer_trial/zone_popup.dart';
 
 import '../constants.dart';
 
@@ -244,7 +245,12 @@ class _ZonePageState extends State<ZonePage> {
             child: IconButton(
               icon: const Icon(Icons.edit),
               color: Colors.white,
-              onPressed: () {},
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (BuildContext context) => ZonePopup(settings: _settings),
+                );
+              },
             ),
           ),
         ],
@@ -297,10 +303,10 @@ enum ZoneState {
 }
 
 class ZoneSettings {
-  final Duration pomodoroDuration;
-  final Duration shortBreakDuration;
-  final Duration longBreakDuration;
-  final bool autoTransition;
+  Duration pomodoroDuration;
+  Duration shortBreakDuration;
+  Duration longBreakDuration;
+  bool autoTransition;
 
   ZoneSettings({
     this.pomodoroDuration = const Duration(minutes: 25),

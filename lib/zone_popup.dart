@@ -45,25 +45,57 @@ class _ZonePopupState extends State<ZonePopup> {
         buildSlider('Pomodoro', _settings.pomodoroDuration, (duration) {
           _settings.pomodoroDuration = duration;
         }),
+        buildSlider('Short Break', _settings.shortBreakDuration, (duration) {
+          _settings.shortBreakDuration = duration;
+        }),
+        buildSlider('Long Break', _settings.longBreakDuration, (duration) {
+          _settings.longBreakDuration = duration;
+        }),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            OutlinedButton(
+              onPressed: () {
+                Navigator.pop(context, null);
+              },
+              child: const Text('Cancel'),
+            ),
+            const SizedBox(width: 10),
+            FilledButton(
+              onPressed: () {
+                Navigator.pop(context, _settings);
+              },
+              child: const Text('Save'),
+            ),
+          ],
+        ),
       ],
     );
   }
 
   Widget buildSlider(String label, Duration duration, void Function(Duration) onChanged) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
+      mainAxisSize: MainAxisSize.max,
       children: [
-        Text(label),
-        Slider(
-          value: duration.inSeconds.toDouble(),
-          min: 30,
-          max: 3600,
-          divisions: 119,
-          label: duration.toFormattedString(),
-          onChanged: (value) {
-            setState(() => onChanged(Duration(seconds: value.toInt())));
-          },
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(label),
+              Slider(
+                value: duration.inSeconds.toDouble(),
+                min: 30,
+                max: 3600,
+                divisions: 119,
+                label: duration.toFormattedString(),
+                onChanged: (value) {
+                  setState(() => onChanged(Duration(seconds: value.toInt())));
+                },
+              ),
+            ],
+          ),
         ),
+        Text(duration.toFormattedString()),
       ],
     );
   }

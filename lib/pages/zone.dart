@@ -17,10 +17,10 @@ class _ZonePageState extends State<ZonePage> {
   ZoneState _zoneState = ZoneState.stopped;
   Duration _currentDuration = const Duration(minutes: 25);
 
-  final ZoneSettings _settings = ZoneSettings(
-    pomodoroDuration: const Duration(seconds: 25),
-    shortBreakDuration: const Duration(seconds: 5),
-    longBreakDuration: const Duration(seconds: 15),
+  ZoneSettings _settings = ZoneSettings(
+    pomodoroDuration: const Duration(seconds: 35),
+    shortBreakDuration: const Duration(seconds: 30),
+    longBreakDuration: const Duration(seconds: 40),
     autoTransition: true,
   );
 
@@ -86,7 +86,7 @@ class _ZonePageState extends State<ZonePage> {
           _timer = null;
 
           if (_settings.autoTransition) {
-            switchZoneState(_zoneType.next);
+            switchZoneType(_zoneType.next);
             startTimer();
           }
         }
@@ -113,7 +113,7 @@ class _ZonePageState extends State<ZonePage> {
     });
   }
 
-  void switchZoneState(ZoneType state) {
+  void switchZoneType(ZoneType state) {
     setState(() {
       _zoneType = state;
       _zoneState = ZoneState.stopped;
@@ -139,7 +139,7 @@ class _ZonePageState extends State<ZonePage> {
     return Row(
       children: [
         GestureDetector(
-          onTap: () => switchZoneState(ZoneType.pomodoro),
+          onTap: () => switchZoneType(ZoneType.pomodoro),
           child: Text(
             'POMODORO',
             style: _zoneType == ZoneType.pomodoro ? activeStyle : inactiveStyle,
@@ -147,7 +147,7 @@ class _ZonePageState extends State<ZonePage> {
         ),
         const SizedBox(width: 15),
         GestureDetector(
-          onTap: () => switchZoneState(ZoneType.shortBreak),
+          onTap: () => switchZoneType(ZoneType.shortBreak),
           child: Text(
             'SHORT BREAK',
             style: _zoneType == ZoneType.shortBreak ? activeStyle : inactiveStyle,
@@ -155,7 +155,7 @@ class _ZonePageState extends State<ZonePage> {
         ),
         const SizedBox(width: 15),
         GestureDetector(
-          onTap: () => switchZoneState(ZoneType.longBreak),
+          onTap: () => switchZoneType(ZoneType.longBreak),
           child: Text(
             'LONG BREAK',
             style: _zoneType == ZoneType.longBreak ? activeStyle : inactiveStyle,
@@ -245,11 +245,18 @@ class _ZonePageState extends State<ZonePage> {
             child: IconButton(
               icon: const Icon(Icons.edit),
               color: Colors.white,
-              onPressed: () {
-                showModalBottomSheet(
+              onPressed: () async {
+                var result = await showModalBottomSheet<ZoneSettings>(
                   context: context,
                   builder: (BuildContext context) => ZonePopup(settings: _settings),
                 );
+
+                if (result != null) {
+                  setState(() {
+                    _settings = result;
+                    switchZoneType(_zoneType);
+                  });
+                }
               },
             ),
           ),

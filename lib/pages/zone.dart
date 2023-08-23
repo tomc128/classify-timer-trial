@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
@@ -10,7 +12,7 @@ class ZonePage extends StatefulWidget {
 }
 
 class _ZonePageState extends State<ZonePage> {
-  ZoneState _zoneState = ZoneState.pomodoro;
+  ZoneType _zoneType = ZoneType.pomodoro;
   bool _isRunning = false;
   Duration _currentDuration = const Duration(minutes: 25);
 
@@ -20,11 +22,11 @@ class _ZonePageState extends State<ZonePage> {
     longBreakDuration: const Duration(seconds: 15),
   );
 
+  Timer? _timer;
+
   @override
   void initState() {
     super.initState();
-
-    // Settings should be loaded from storage
 
     _currentDuration = _settings.pomodoroDuration;
   }
@@ -112,18 +114,36 @@ class _ZonePageState extends State<ZonePage> {
     );
   }
 
-  void switchZoneState(ZoneState state) {
-    setState(() {
-      _zoneState = state;
+  void startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_currentDuration.inSeconds > 0) {
+          _currentDuration -= const Duration(seconds: 1);
+        } else {
+          _timer?.cancel();
+          _timer = null;
 
-      switch (_zoneState) {
-        case ZoneState.pomodoro:
+          if (_settings.autoTransition) {
+            switchZoneState(_zoneType.next);
+          }
+        }
+      });
+    });
+  }
+
+  void switchZoneState(ZoneType state) {
+    setState(() {
+      _zoneType = state;
+      _isRunning = false;
+
+      switch (_zoneType) {
+        case ZoneType.pomodoro:
           _currentDuration = _settings.pomodoroDuration;
           break;
-        case ZoneState.shortBreak:
+        case ZoneType.shortBreak:
           _currentDuration = _settings.shortBreakDuration;
           break;
-        case ZoneState.longBreak:
+        case ZoneType.longBreak:
           _currentDuration = _settings.longBreakDuration;
           break;
       }
@@ -137,26 +157,26 @@ class _ZonePageState extends State<ZonePage> {
     return Row(
       children: [
         GestureDetector(
-          onTap: () => switchZoneState(ZoneState.pomodoro),
+          onTap: () => switchZoneState(ZoneType.pomodoro),
           child: Text(
             'POMODORO',
-            style: _zoneState == ZoneState.pomodoro ? activeStyle : inactiveStyle,
+            style: _zoneType == ZoneType.pomodoro ? activeStyle : inactiveStyle,
           ),
         ),
         const SizedBox(width: 15),
         GestureDetector(
-          onTap: () => switchZoneState(ZoneState.shortBreak),
+          onTap: () => switchZoneState(ZoneType.shortBreak),
           child: Text(
             'SHORT BREAK',
-            style: _zoneState == ZoneState.shortBreak ? activeStyle : inactiveStyle,
+            style: _zoneType == ZoneType.shortBreak ? activeStyle : inactiveStyle,
           ),
         ),
         const SizedBox(width: 15),
         GestureDetector(
-          onTap: () => switchZoneState(ZoneState.longBreak),
+          onTap: () => switchZoneState(ZoneType.longBreak),
           child: Text(
             'LONG BREAK',
-            style: _zoneState == ZoneState.longBreak ? activeStyle : inactiveStyle,
+            style: _zoneType == ZoneType.longBreak ? activeStyle : inactiveStyle,
           ),
         ),
       ],
@@ -189,10 +209,27 @@ class _ZonePageState extends State<ZonePage> {
   }
 }
 
-enum ZoneState {
+enum ZoneType {
   pomodoro,
   shortBreak,
-  longBreak,
+  longBreak;
+
+  ZoneType get next {
+    switch (this) {
+      case ZoneType.pomodoro:
+        return ZoneType.shortBreak;
+      case ZoneType.shortBreak:
+        return ZoneType.pomodoro;
+      case ZoneType.longBreak:
+        return ZoneType.pomodoro;
+    }
+  }
+}
+
+enum ZoneState {
+  running,
+  paused,
+  stopped,
 }
 
 class ZoneSettings {

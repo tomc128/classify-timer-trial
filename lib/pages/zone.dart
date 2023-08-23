@@ -20,6 +20,7 @@ class _ZonePageState extends State<ZonePage> {
     pomodoroDuration: const Duration(seconds: 25),
     shortBreakDuration: const Duration(seconds: 5),
     longBreakDuration: const Duration(seconds: 15),
+    autoTransition: true,
   );
 
   Timer? _timer;
@@ -85,6 +86,7 @@ class _ZonePageState extends State<ZonePage> {
 
           if (_settings.autoTransition) {
             switchZoneState(_zoneType.next);
+            startTimer();
           }
         }
       });
@@ -106,8 +108,7 @@ class _ZonePageState extends State<ZonePage> {
 
     setState(() {
       _zoneState = ZoneState.stopped;
-      _currentDuration = _settings.pomodoroDuration;
-      // TODO: change currentDuration to the correct duration
+      _currentDuration = getZoneTypeMaxDuration(_zoneType);
     });
   }
 
@@ -257,6 +258,17 @@ class _ZonePageState extends State<ZonePage> {
     String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
     return '$twoDigitMinutes:$twoDigitSeconds';
   }
+
+  Duration getZoneTypeMaxDuration(ZoneType type) {
+    switch (type) {
+      case ZoneType.pomodoro:
+        return _settings.pomodoroDuration;
+      case ZoneType.shortBreak:
+        return _settings.shortBreakDuration;
+      case ZoneType.longBreak:
+        return _settings.longBreakDuration;
+    }
+  }
 }
 
 enum ZoneType {
@@ -265,11 +277,13 @@ enum ZoneType {
   longBreak;
 
   ZoneType get next {
+    // The sequence should probably be, pomodoro -> (short break -> pomodoro) [some amount of times] -> long break -> repeat
+    // however, the brief simply says pomodoro -> short break -> long break -> repeat
     switch (this) {
       case ZoneType.pomodoro:
         return ZoneType.shortBreak;
       case ZoneType.shortBreak:
-        return ZoneType.pomodoro;
+        return ZoneType.longBreak;
       case ZoneType.longBreak:
         return ZoneType.pomodoro;
     }

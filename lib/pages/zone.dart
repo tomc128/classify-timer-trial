@@ -10,22 +10,23 @@ class ZonePage extends StatefulWidget {
 }
 
 class _ZonePageState extends State<ZonePage> {
-  final ZoneState _zoneState = ZoneState.pomodoro;
+  ZoneState _zoneState = ZoneState.pomodoro;
   bool _isRunning = false;
   Duration _currentDuration = const Duration(minutes: 25);
+
+  final ZoneSettings _settings = ZoneSettings(
+    pomodoroDuration: const Duration(seconds: 25),
+    shortBreakDuration: const Duration(seconds: 5),
+    longBreakDuration: const Duration(seconds: 15),
+  );
 
   @override
   void initState() {
     super.initState();
 
     // Settings should be loaded from storage
-    var settings = ZoneSettings(
-      pomodoroDuration: const Duration(seconds: 25),
-      shortBreakDuration: const Duration(seconds: 5),
-      longBreakDuration: const Duration(seconds: 15),
-    );
 
-    _currentDuration = settings.pomodoroDuration;
+    _currentDuration = _settings.pomodoroDuration;
   }
 
   @override
@@ -61,24 +62,7 @@ class _ZonePageState extends State<ZonePage> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Row(
-                children: [
-                  Text(
-                    'POMODORO',
-                    style: kSFTextStyle.copyWith(fontSize: 10, color: Colors.white),
-                  ),
-                  const SizedBox(width: 10),
-                  Text(
-                    'SHORT BREAK',
-                    style: kSFTextStyle.copyWith(fontSize: 10, color: kPurpleColor2),
-                  ),
-                  const SizedBox(width: 10),
-                  Text(
-                    'LONG BREAK',
-                    style: kSFTextStyle.copyWith(fontSize: 10, color: kPurpleColor2),
-                  ),
-                ],
-              ),
+              buildZoneStateHeader(context),
 
               // Clock
               buildClockWidget(context),
@@ -122,6 +106,57 @@ class _ZonePageState extends State<ZonePage> {
                 ],
               ),
             ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  void switchZoneState(ZoneState state) {
+    setState(() {
+      _zoneState = state;
+
+      switch (_zoneState) {
+        case ZoneState.pomodoro:
+          _currentDuration = _settings.pomodoroDuration;
+          break;
+        case ZoneState.shortBreak:
+          _currentDuration = _settings.shortBreakDuration;
+          break;
+        case ZoneState.longBreak:
+          _currentDuration = _settings.longBreakDuration;
+          break;
+      }
+    });
+  }
+
+  Widget buildZoneStateHeader(BuildContext context) {
+    var activeStyle = kSFTextStyle.copyWith(fontSize: 10, color: Colors.white);
+    var inactiveStyle = kSFTextStyle.copyWith(fontSize: 10, color: kPurpleColor7);
+
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: () => switchZoneState(ZoneState.pomodoro),
+          child: Text(
+            'POMODORO',
+            style: _zoneState == ZoneState.pomodoro ? activeStyle : inactiveStyle,
+          ),
+        ),
+        const SizedBox(width: 15),
+        GestureDetector(
+          onTap: () => switchZoneState(ZoneState.shortBreak),
+          child: Text(
+            'SHORT BREAK',
+            style: _zoneState == ZoneState.shortBreak ? activeStyle : inactiveStyle,
+          ),
+        ),
+        const SizedBox(width: 15),
+        GestureDetector(
+          onTap: () => switchZoneState(ZoneState.longBreak),
+          child: Text(
+            'LONG BREAK',
+            style: _zoneState == ZoneState.longBreak ? activeStyle : inactiveStyle,
           ),
         ),
       ],

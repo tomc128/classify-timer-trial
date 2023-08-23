@@ -1,18 +1,16 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 const kUrlDiscord = 'https://discord.gg/EYSZ5QEEYC';
 const kUrlPrivacyPolicy = 'https://www.classify.org.uk/privacy-policy';
-const kUrlTermsAndConditions =
-    'https://www.classify.org.uk/terms-and-conditions';
+const kUrlTermsAndConditions = 'https://www.classify.org.uk/terms-and-conditions';
 const kUrlLegal = 'https://classify.org.uk/legal';
-const kUrlCors =
-    'https://europe-west3-classify-firebase.cloudfunctions.net/cors';
+const kUrlCors = 'https://europe-west3-classify-firebase.cloudfunctions.net/cors';
 const kUrlCodemagicApp = 'https://codemagic.io/app/6016fea79e376afc41c2799c';
 const kUrlPatreon = 'https://patreon.com/classifyapp';
 
-const kFcmVapidKey =
-    'BP4uW-b9TSnKJrJsoLEF5qu2PjyZ03HOinAS1VXV_uM9daAGwr8pg7rvqTItdOSpLGfTOCg3jSB_8v378wu-8mo';
+const kFcmVapidKey = 'BP4uW-b9TSnKJrJsoLEF5qu2PjyZ03HOinAS1VXV_uM9daAGwr8pg7rvqTItdOSpLGfTOCg3jSB_8v378wu-8mo';
 const kSentryDSN = String.fromEnvironment('SENTRY_DSN');
 
 const kDynamicLinkDomain = 'link.classify.org.uk';
@@ -42,34 +40,34 @@ const kSFTextStyle = TextStyle(
 );
 
 List<Color> homeGradient = [homeBlue, homePink];
-Color homeBlue = Color(0xff585DFF);
-Color homePink = Color(0xffF157FF);
+Color homeBlue = const Color(0xff585DFF);
+Color homePink = const Color(0xffF157FF);
 const Color kLightGrey = Color(0xFFCBCBCB);
 const Color kPurpleColor1 = Color(0xFF6D8AFF);
-Color kGreenColor1 = Color(0xFF00FFBB);
-Color kGreenColor2 = Color(0xFF00AF81);
+Color kGreenColor1 = const Color(0xFF00FFBB);
+Color kGreenColor2 = const Color(0xFF00AF81);
 
-Color kPurpleColor2 = Color(0xFF3B3E66);
-Color kOrangeColor1 = Color(0xFFF7946F);
-Color kOrangeColor2 = Color(0xFFF8B32D);
-Color kRedColor = Color(0xFFFF0057);
-Color kOrangeColor3 = Color(0xFFFF8000);
+Color kPurpleColor2 = const Color(0xFF3B3E66);
+Color kOrangeColor1 = const Color(0xFFF7946F);
+Color kOrangeColor2 = const Color(0xFFF8B32D);
+Color kRedColor = const Color(0xFFFF0057);
+Color kOrangeColor3 = const Color(0xFFFF8000);
 
-Color kPurpleColor3 = Color(0xFF232554);
-Color kPurpleColor4 = Color(0xFFA0A5FF);
-Color kPurpleColor5 = Color(0xFFB195FF); // 2a2d5c
-Color kPurpleColor6 = Color(0xFFF29FFF);
-Color kPurpleColor7 = Color.fromRGBO(92, 96, 101, 1.0);
-Color kPeachColor = Color(0xFFFBAEA2);
-Color kPurpleColor8 = Color.fromRGBO(109, 138, 255, 1.0);
-Color kPurpleColor9 = Color.fromRGBO(42, 45, 92, 1.0);
-Color kPurpleColor10 = Color(0xFF5C60B5);
-Color kPurpleColor11 = Color(0xff6378FF);
-Color kBlueColor = Color(0xFF486DFF);
-Color kBlueColor2 = Color(0xFF305FFF);
+Color kPurpleColor3 = const Color(0xFF232554);
+Color kPurpleColor4 = const Color(0xFFA0A5FF);
+Color kPurpleColor5 = const Color(0xFFB195FF); // 2a2d5c
+Color kPurpleColor6 = const Color(0xFFF29FFF);
+Color kPurpleColor7 = const Color.fromRGBO(92, 96, 101, 1.0);
+Color kPeachColor = const Color(0xFFFBAEA2);
+Color kPurpleColor8 = const Color.fromRGBO(109, 138, 255, 1.0);
+Color kPurpleColor9 = const Color.fromRGBO(42, 45, 92, 1.0);
+Color kPurpleColor10 = const Color(0xFF5C60B5);
+Color kPurpleColor11 = const Color(0xff6378FF);
+Color kBlueColor = const Color(0xFF486DFF);
+Color kBlueColor2 = const Color(0xFF305FFF);
 
-Color kGold = Color(0xFFFFBB00);
-Color kLightGold = Color(0xFFFFD498);
+Color kGold = const Color(0xFFFFBB00);
+Color kLightGold = const Color(0xFFFFD498);
 
 //Header Colors
 const Color kHeaderGreen = Color(0xFF24FF5B);
@@ -77,11 +75,11 @@ const Color kHeaderOrange = Color(0xFFFF7B00);
 const Color kHeaderPink = Color(0xFFFF0098);
 
 //Fab Colors
-Color kGreenFab = Color(0xFF64FFAD);
-Color kOrangeFab = Color(0xFFFFC200);
-Color kPinkFab = Color(0xFFFF4787);
+Color kGreenFab = const Color(0xFF64FFAD);
+Color kOrangeFab = const Color(0xFFFFC200);
+Color kPinkFab = const Color(0xFFFF4787);
 
-Color otherLessonColor = Color.fromRGBO(73, 75, 122, 1.0);
+Color otherLessonColor = const Color.fromRGBO(73, 75, 122, 1.0);
 
 // TODO maybe improve these colors due to doughnut charts
 const kSubjectsColorList = <Color>[
@@ -127,8 +125,8 @@ const kSubjectsColorList = <Color>[
 ];
 
 Color getRandomColor() {
-  final _random = Random();
-  return kSubjectsColorList[_random.nextInt(kSubjectsColorList.length)];
+  final random = Random();
+  return kSubjectsColorList[random.nextInt(kSubjectsColorList.length)];
 }
 
 List<String>? documentFileTypes = [

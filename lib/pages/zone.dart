@@ -13,7 +13,7 @@ class ZonePage extends StatefulWidget {
 
 class _ZonePageState extends State<ZonePage> {
   ZoneType _zoneType = ZoneType.pomodoro;
-  bool _isRunning = false;
+  ZoneState _zoneState = ZoneState.stopped;
   Duration _currentDuration = const Duration(minutes: 25);
 
   final ZoneSettings _settings = ZoneSettings(
@@ -89,7 +89,17 @@ class _ZonePageState extends State<ZonePage> {
                     child: IconButton.filled(
                       color: Colors.white,
                       onPressed: () {
-                        setState(() => _isRunning = !_isRunning);
+                        setState(() {
+                          switch (_zoneState) {
+                            case ZoneState.running:
+                              pauseTimer();
+                              break;
+                            case ZoneState.paused:
+                            case ZoneState.stopped:
+                              startTimer();
+                              break;
+                          }
+                        });
                       },
                       icon: const Icon(Icons.play_arrow),
                       iconSize: 35,
@@ -115,7 +125,9 @@ class _ZonePageState extends State<ZonePage> {
   }
 
   void startTimer() {
+    print('startTimer');
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      print('timer tick');
       setState(() {
         if (_currentDuration.inSeconds > 0) {
           _currentDuration -= const Duration(seconds: 1);
@@ -129,12 +141,31 @@ class _ZonePageState extends State<ZonePage> {
         }
       });
     });
+
+    setState(() => _zoneState = ZoneState.running);
+  }
+
+  void pauseTimer() {
+    _timer?.cancel();
+    _timer = null;
+
+    setState(() => _zoneState = ZoneState.paused);
+  }
+
+  void stopTimer() {
+    _timer?.cancel();
+    _timer = null;
+
+    setState(() {
+      _zoneState = ZoneState.stopped;
+      _currentDuration = _settings.pomodoroDuration;
+    });
   }
 
   void switchZoneState(ZoneType state) {
     setState(() {
       _zoneType = state;
-      _isRunning = false;
+      _zoneState = ZoneState.stopped;
 
       switch (_zoneType) {
         case ZoneType.pomodoro:

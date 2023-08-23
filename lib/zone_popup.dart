@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timer_trial/duration_extensions.dart';
 import 'package:timer_trial/pages/zone.dart';
 
 class ZonePopup extends StatefulWidget {
@@ -55,14 +56,12 @@ class _ZonePopupState extends State<ZonePopup> {
         Text(label),
         Slider(
           value: duration.inSeconds.toDouble(),
-          min: 0,
-          max: 60,
-          divisions: 60,
-          label: duration.inSeconds.toString(),
-          onChanged: (value) => {
-            setState(() {
-              onChanged(Duration(seconds: value.toInt()));
-            })
+          min: 30,
+          max: 3600,
+          divisions: 119,
+          label: duration.toFormattedString(),
+          onChanged: (value) {
+            setState(() => onChanged(Duration(seconds: value.toInt())));
           },
         ),
       ],

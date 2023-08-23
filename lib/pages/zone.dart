@@ -65,58 +65,8 @@ class _ZonePageState extends State<ZonePage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               buildZoneStateHeader(context),
-
-              // Clock
               buildClockWidget(context),
-
-              // Buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircleAvatar(
-                    backgroundColor: kPurpleColor2,
-                    child: IconButton.filled(
-                      color: Colors.white,
-                      onPressed: () {},
-                      icon: const Icon(Icons.refresh),
-                      iconSize: 17,
-                    ),
-                  ),
-                  const SizedBox(width: 15),
-                  CircleAvatar(
-                    backgroundColor: kHeaderPink,
-                    radius: 25,
-                    child: IconButton.filled(
-                      color: Colors.white,
-                      onPressed: () {
-                        setState(() {
-                          switch (_zoneState) {
-                            case ZoneState.running:
-                              pauseTimer();
-                              break;
-                            case ZoneState.paused:
-                            case ZoneState.stopped:
-                              startTimer();
-                              break;
-                          }
-                        });
-                      },
-                      icon: const Icon(Icons.play_arrow),
-                      iconSize: 35,
-                    ),
-                  ),
-                  const SizedBox(width: 15),
-                  CircleAvatar(
-                    backgroundColor: kPurpleColor2,
-                    child: IconButton.filled(
-                      color: Colors.white,
-                      onPressed: () {},
-                      icon: const Icon(Icons.edit),
-                      iconSize: 17,
-                    ),
-                  ),
-                ],
-              ),
+              buildControlButtons(context),
             ],
           ),
         ),
@@ -125,9 +75,7 @@ class _ZonePageState extends State<ZonePage> {
   }
 
   void startTimer() {
-    print('startTimer');
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      print('timer tick');
       setState(() {
         if (_currentDuration.inSeconds > 0) {
           _currentDuration -= const Duration(seconds: 1);
@@ -159,6 +107,7 @@ class _ZonePageState extends State<ZonePage> {
     setState(() {
       _zoneState = ZoneState.stopped;
       _currentDuration = _settings.pomodoroDuration;
+      // TODO: change currentDuration to the correct duration
     });
   }
 
@@ -228,6 +177,76 @@ class _ZonePageState extends State<ZonePage> {
           formatDuration(_currentDuration),
           style: kGoogleSansTextStyle.copyWith(fontSize: 33, color: Colors.white),
         ),
+      ),
+    );
+  }
+
+  Widget buildControlButtons(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Ink(
+            decoration: ShapeDecoration(
+              color: kPurpleColor2,
+              shape: const CircleBorder(),
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.refresh),
+              color: Colors.white,
+              onPressed: () {
+                setState(() {
+                  stopTimer();
+                });
+              },
+            ),
+          ),
+          const SizedBox(width: 15),
+          Ink(
+            decoration: const ShapeDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFFFF00FF),
+                  Color(0XFFFF2B79),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              shape: CircleBorder(),
+            ),
+            child: IconButton(
+              icon: Icon(_zoneState == ZoneState.running ? Icons.pause : Icons.play_arrow),
+              color: Colors.white,
+              onPressed: () {
+                setState(() {
+                  switch (_zoneState) {
+                    case ZoneState.running:
+                      pauseTimer();
+                      break;
+                    case ZoneState.paused:
+                    case ZoneState.stopped:
+                      startTimer();
+                      break;
+                  }
+                });
+              },
+            ),
+          ),
+          const SizedBox(width: 15),
+          Ink(
+            decoration: ShapeDecoration(
+              color: kPurpleColor2,
+              shape: const CircleBorder(),
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.edit),
+              color: Colors.white,
+              onPressed: () {},
+            ),
+          ),
+        ],
       ),
     );
   }

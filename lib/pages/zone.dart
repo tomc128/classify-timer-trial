@@ -82,8 +82,7 @@ class _ZonePageState extends State<ZonePage> {
         if (_currentDuration.inSeconds > 0) {
           _currentDuration -= const Duration(seconds: 1);
         } else {
-          _timer?.cancel();
-          _timer = null;
+          stopTimer();
 
           if (_settings.autoTransition) {
             switchZoneType(_zoneType.next);
@@ -116,7 +115,7 @@ class _ZonePageState extends State<ZonePage> {
   void switchZoneType(ZoneType state) {
     setState(() {
       _zoneType = state;
-      _zoneState = ZoneState.stopped;
+      stopTimer();
 
       switch (_zoneType) {
         case ZoneType.pomodoro:

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:timer_trial/zone_popup.dart';
+import 'package:timer_trial/zone_timer_provider.dart';
 
 import '../constants.dart';
 
@@ -281,43 +282,4 @@ class _ZonePageState extends State<ZonePage> {
         return _settings.longBreakDuration;
     }
   }
-}
-
-enum ZoneType {
-  pomodoro,
-  shortBreak,
-  longBreak;
-
-  ZoneType get next {
-    // The sequence should probably be, pomodoro -> (short break -> pomodoro) [some amount of times] -> long break -> repeat
-    // however, the brief simply says pomodoro -> short break -> long break -> repeat
-    switch (this) {
-      case ZoneType.pomodoro:
-        return ZoneType.shortBreak;
-      case ZoneType.shortBreak:
-        return ZoneType.longBreak;
-      case ZoneType.longBreak:
-        return ZoneType.pomodoro;
-    }
-  }
-}
-
-enum ZoneState {
-  running,
-  paused,
-  stopped,
-}
-
-class ZoneSettings {
-  Duration pomodoroDuration;
-  Duration shortBreakDuration;
-  Duration longBreakDuration;
-  bool autoTransition;
-
-  ZoneSettings({
-    this.pomodoroDuration = const Duration(minutes: 25),
-    this.shortBreakDuration = const Duration(minutes: 5),
-    this.longBreakDuration = const Duration(minutes: 15),
-    this.autoTransition = true,
-  });
 }

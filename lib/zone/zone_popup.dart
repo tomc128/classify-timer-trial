@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:timer_trial/duration_extensions.dart';
-import 'package:timer_trial/zone_timer_provider.dart';
+import 'package:timer_trial/zone/zone_timer.dart';
 
 class ZonePopup extends StatefulWidget {
   final ZoneSettings settings;

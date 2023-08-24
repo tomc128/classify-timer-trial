@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:timer_trial/constants.dart';
 import 'package:timer_trial/pages/other_page.dart';
 import 'package:timer_trial/pages/zone.dart';
-import 'package:timer_trial/zone_timer_provider.dart';
+import 'package:timer_trial/zone/zone_timer.dart';
 
 void main(List<String> args) {
   runApp(

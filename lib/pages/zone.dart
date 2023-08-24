@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timer_trial/duration_extensions.dart';
-import 'package:timer_trial/zone_popup.dart';
-import 'package:timer_trial/zone_timer_provider.dart';
+import 'package:timer_trial/zone/zone_popup.dart';
+import 'package:timer_trial/zone/zone_timer.dart';
 
 import '../constants.dart';
 
@@ -58,61 +58,6 @@ class _ZonePageState extends State<ZonePage> {
       ),
     );
   }
-
-  // void startTimer() {
-  //   _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-  //     setState(() {
-  //       if (_currentDuration.inSeconds > 0) {
-  //         _currentDuration -= const Duration(seconds: 1);
-  //       } else {
-  //         stopTimer();
-
-  //         if (_settings.autoTransition) {
-  //           switchZoneType(_zoneType.next);
-  //           startTimer();
-  //         }
-  //       }
-  //     });
-  //   });
-
-  //   setState(() => _zoneState = ZoneState.running);
-  // }
-
-  // void pauseTimer() {
-  //   _timer?.cancel();
-  //   _timer = null;
-
-  //   setState(() => _zoneState = ZoneState.paused);
-  // }
-
-  // void stopTimer() {
-  //   _timer?.cancel();
-  //   _timer = null;
-
-  //   setState(() {
-  //     _zoneState = ZoneState.stopped;
-  //     _currentDuration = getZoneTypeMaxDuration(_zoneType);
-  //   });
-  // }
-
-  // void switchZoneType(ZoneType state) {
-  //   setState(() {
-  //     _zoneType = state;
-  //     stopTimer();
-
-  //     switch (_zoneType) {
-  //       case ZoneType.pomodoro:
-  //         _currentDuration = _settings.pomodoroDuration;
-  //         break;
-  //       case ZoneType.shortBreak:
-  //         _currentDuration = _settings.shortBreakDuration;
-  //         break;
-  //       case ZoneType.longBreak:
-  //         _currentDuration = _settings.longBreakDuration;
-  //         break;
-  //     }
-  //   });
-  // }
 
   Widget buildZoneStateHeader(BuildContext context, ZoneTimer timer) {
     var activeStyle = kSFTextStyle.copyWith(fontSize: 10, color: Colors.white);
@@ -235,15 +180,4 @@ class _ZonePageState extends State<ZonePage> {
       ),
     );
   }
-
-  // Duration getZoneTypeMaxDuration(ZoneType type) {
-  //   switch (type) {
-  //     case ZoneType.pomodoro:
-  //       return _settings.pomodoroDuration;
-  //     case ZoneType.shortBreak:
-  //       return _settings.shortBreakDuration;
-  //     case ZoneType.longBreak:
-  //       return _settings.longBreakDuration;
-  //   }
-  // }
 }

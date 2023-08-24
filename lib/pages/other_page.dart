@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timer_trial/duration_extensions.dart';
-import 'package:timer_trial/zone_timer_provider.dart';
+import 'package:timer_trial/zone/zone_timer.dart';
 
 class OtherPage extends StatefulWidget {
   const OtherPage({super.key});

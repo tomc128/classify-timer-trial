@@ -27,9 +27,9 @@ class ZoneTimer extends ChangeNotifier {
     _currentDuration = getZoneTypeDuration(_zoneType);
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      _currentDuration -= const Duration(seconds: 1);
-
-      if (_currentDuration.inSeconds <= 0) {
+      if (_currentDuration.inSeconds > 0) {
+        _currentDuration -= const Duration(seconds: 1);
+      } else {
         stopTimer();
 
         if (settings.autoTransition) {

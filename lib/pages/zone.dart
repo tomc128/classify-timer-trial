@@ -117,36 +117,42 @@ class _ZonePageState extends State<ZonePage> {
   }
 
   Widget buildControlButtons(BuildContext context, ZoneTimer timer) {
-    return Material(
-      color: Colors.transparent,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Ink(
-            decoration: ShapeDecoration(
-              color: kPurpleColor2,
-              shape: const CircleBorder(),
-            ),
-            child: IconButton(
-              icon: const Icon(Icons.refresh),
-              color: Colors.white,
-              onPressed: () => timer.stopTimer(),
-            ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Material(
+          color: kPurpleColor2,
+          shape: const CircleBorder(),
+          clipBehavior: Clip.antiAlias,
+          child: IconButton(
+            visualDensity: VisualDensity.compact,
+            icon: const Icon(Icons.refresh),
+            color: Colors.white,
+            iconSize: 20,
+            onPressed: () => timer.stopTimer(),
           ),
-          const SizedBox(width: 15),
-          Ink(
-            decoration: const ShapeDecoration(
-              gradient: LinearGradient(
-                colors: [Color(0xFFFF00FF), Color(0XFFFF2B79)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              shape: CircleBorder(),
+        ),
+        const SizedBox(width: 15),
+        Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFFFF00FF), Color(0XFFFF2B79)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
+            shape: BoxShape.circle,
+          ),
+          width: 60,
+          height: 60,
+          child: Material(
+            color: Colors.transparent,
+            shape: const CircleBorder(),
+            clipBehavior: Clip.antiAlias,
             child: IconButton(
               icon: Icon(timer.zoneState == ZoneState.running ? Icons.pause : Icons.play_arrow),
               color: Colors.white,
+              iconSize: 32,
               onPressed: () {
                 setState(() {
                   if (timer.zoneState == ZoneState.running) {
@@ -158,30 +164,31 @@ class _ZonePageState extends State<ZonePage> {
               },
             ),
           ),
-          const SizedBox(width: 15),
-          Ink(
-            decoration: ShapeDecoration(
-              color: kPurpleColor2,
-              shape: const CircleBorder(),
-            ),
-            child: IconButton(
-              icon: const Icon(Icons.edit),
-              color: Colors.white,
-              onPressed: () async {
-                var result = await showModalBottomSheet<ZoneSettings>(
-                  context: context,
-                  builder: (BuildContext context) => ZonePopup(settings: timer.settings),
-                  backgroundColor: Colors.transparent,
-                );
+        ),
+        const SizedBox(width: 15),
+        Material(
+          color: kPurpleColor2,
+          shape: const CircleBorder(),
+          clipBehavior: Clip.antiAlias,
+          child: IconButton(
+            visualDensity: VisualDensity.compact,
+            icon: const Icon(Icons.edit),
+            color: Colors.white,
+            iconSize: 20,
+            onPressed: () async {
+              var result = await showModalBottomSheet<ZoneSettings>(
+                context: context,
+                builder: (BuildContext context) => ZonePopup(settings: timer.settings),
+                backgroundColor: Colors.transparent,
+              );
 
-                if (result != null) {
-                  timer.updateSettings(result);
-                }
-              },
-            ),
+              if (result != null) {
+                timer.updateSettings(result);
+              }
+            },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

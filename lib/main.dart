@@ -30,47 +30,72 @@ class _ClassifyTrialState extends State<ClassifyTrial> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: CurvedNavigationBar(
-        buttonBackgroundColor: kPurpleColor2,
-        backgroundColor: kPurpleColor3,
-        color: kPurpleColor2,
-        onTap: (value) => {
-          if (value == 0)
-            {
-              setState(() {
-                _currentPage = const ZonePage();
-              })
+    return Consumer<ZoneTimer>(
+      builder: (context, timer, child) => Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            if (timer.zoneState == ZoneState.running) {
+              timer.pauseTimer();
+            } else {
+              timer.startTimer();
             }
-          else
-            {
-              setState(() {
-                _currentPage = const OtherPage();
-              })
-            }
-        },
-        items: [
-          CurvedNavigationBarItem(
-            child: Image.asset(
-              'assets/icons/icons8_tomato_96px_3.png',
-              height: 40,
-              width: 40,
+          },
+          child: Container(
+            width: 60,
+            height: 60,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: LinearGradient(
+                colors: [Color(0xFFFF00FF), Color(0XFFFF2B79)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
             ),
-            label: "Zone",
-            labelStyle: kGoogleSansTextStyle.copyWith(fontSize: 14, color: Colors.white),
+            child: Icon(timer.zoneState == ZoneState.running ? Icons.pause : Icons.play_arrow),
           ),
-          CurvedNavigationBarItem(
+        ),
+        bottomNavigationBar: CurvedNavigationBar(
+          buttonBackgroundColor: kPurpleColor2,
+          backgroundColor: kPurpleColor3,
+          color: kPurpleColor2,
+          onTap: (value) => {
+            if (value == 0)
+              {
+                setState(() {
+                  _currentPage = const ZonePage();
+                })
+              }
+            else
+              {
+                setState(() {
+                  _currentPage = const OtherPage();
+                })
+              }
+          },
+          items: [
+            CurvedNavigationBarItem(
+              child: Image.asset(
+                'assets/icons/icons8_tomato_96px_3.png',
+                height: 40,
+                width: 40,
+              ),
+              label: "Zone",
+              labelStyle: kGoogleSansTextStyle.copyWith(fontSize: 14, color: Colors.white),
+            ),
+            CurvedNavigationBarItem(
               child: const Icon(
                 Icons.home_rounded,
                 size: 40,
                 color: Colors.white,
               ),
               label: "Other Page",
-              labelStyle: kGoogleSansTextStyle.copyWith(fontSize: 14, color: Colors.white)),
-        ],
+              labelStyle: kGoogleSansTextStyle.copyWith(fontSize: 14, color: Colors.white),
+            ),
+          ],
+        ),
+        backgroundColor: kPurpleColor3,
+        body: _currentPage,
       ),
-      backgroundColor: kPurpleColor3,
-      body: _currentPage,
     );
   }
 }

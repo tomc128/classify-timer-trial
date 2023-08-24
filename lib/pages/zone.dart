@@ -138,10 +138,7 @@ class _ZonePageState extends State<ZonePage> {
           Ink(
             decoration: const ShapeDecoration(
               gradient: LinearGradient(
-                colors: [
-                  Color(0xFFFF00FF),
-                  Color(0XFFFF2B79),
-                ],
+                colors: [Color(0xFFFF00FF), Color(0XFFFF2B79)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),

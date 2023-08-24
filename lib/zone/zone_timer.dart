@@ -18,15 +18,14 @@ class ZoneTimer extends ChangeNotifier {
   double get progress => 1 - (_currentDuration.inSeconds / getZoneTypeDuration(_zoneType).inSeconds);
 
   ZoneSettings settings = ZoneSettings(
-    pomodoroDuration: const Duration(seconds: 35),
-    shortBreakDuration: const Duration(seconds: 30),
-    longBreakDuration: const Duration(seconds: 40),
+    pomodoroDuration: const Duration(minutes: 25),
+    shortBreakDuration: const Duration(minutes: 5),
+    longBreakDuration: const Duration(minutes: 15),
     autoTransition: true,
   );
 
   void startTimer() {
     _zoneState = ZoneState.running;
-    _currentDuration = getZoneTypeDuration(_zoneType);
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_currentDuration.inSeconds > 0) {
@@ -42,6 +41,8 @@ class ZoneTimer extends ChangeNotifier {
 
       notifyListeners();
     });
+
+    notifyListeners();
   }
 
   void switchZoneType(ZoneType state) {

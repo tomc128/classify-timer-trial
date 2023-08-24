@@ -90,6 +90,14 @@ class ZoneTimer extends ChangeNotifier {
         return settings.longBreakDuration;
     }
   }
+
+  void updateSettings(ZoneSettings newSettings) {
+    settings = newSettings;
+
+    _currentDuration = getZoneTypeDuration(_zoneType);
+
+    notifyListeners();
+  }
 }
 
 enum ZoneType {

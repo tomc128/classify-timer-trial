@@ -1,6 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:timer_trial/duration_extensions.dart';
 import 'package:timer_trial/zone_popup.dart';
 import 'package:timer_trial/zone_timer_provider.dart';
 
@@ -14,158 +14,140 @@ class ZonePage extends StatefulWidget {
 }
 
 class _ZonePageState extends State<ZonePage> {
-  ZoneType _zoneType = ZoneType.pomodoro;
-  ZoneState _zoneState = ZoneState.stopped;
-  Duration _currentDuration = const Duration(minutes: 25);
-
-  ZoneSettings _settings = ZoneSettings(
-    pomodoroDuration: const Duration(seconds: 35),
-    shortBreakDuration: const Duration(seconds: 30),
-    longBreakDuration: const Duration(seconds: 40),
-    autoTransition: true,
-  );
-
-  Timer? _timer;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _currentDuration = _settings.pomodoroDuration;
-  }
-
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return Stack(
-      children: [
-        Container(
-          height: 190,
-          decoration: BoxDecoration(
-            color: kHeaderPink,
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.elliptical(screenWidth / 2, 30),
-              bottomRight: Radius.elliptical(screenWidth / 2, 30),
+    return Consumer<ZoneTimer>(
+      builder: (context, timer, child) => Stack(
+        children: [
+          Container(
+            height: 190,
+            decoration: BoxDecoration(
+              color: kHeaderPink,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.elliptical(screenWidth / 2, 30),
+                bottomRight: Radius.elliptical(screenWidth / 2, 30),
+              ),
+            ),
+            child: const Center(
+              child: Image(
+                image: AssetImage('assets/icons/icons8_tomato_96px_3.png'),
+                width: 26,
+              ),
             ),
           ),
-          child: const Center(
-            child: Image(
-              image: AssetImage('assets/icons/icons8_tomato_96px_3.png'),
-              width: 26,
+          Container(
+            margin: const EdgeInsets.fromLTRB(16, 100, 16, 0),
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: kPurpleColor9,
+              borderRadius: BorderRadius.circular(22),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                buildZoneStateHeader(context, timer),
+                buildClockWidget(context, timer),
+                buildControlButtons(context, timer),
+              ],
             ),
           ),
-        ),
-        Container(
-          margin: const EdgeInsets.fromLTRB(16, 100, 16, 0),
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: kPurpleColor9,
-            borderRadius: BorderRadius.circular(22),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              buildZoneStateHeader(context),
-              buildClockWidget(context),
-              buildControlButtons(context),
-            ],
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
-  void startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        if (_currentDuration.inSeconds > 0) {
-          _currentDuration -= const Duration(seconds: 1);
-        } else {
-          stopTimer();
+  // void startTimer() {
+  //   _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+  //     setState(() {
+  //       if (_currentDuration.inSeconds > 0) {
+  //         _currentDuration -= const Duration(seconds: 1);
+  //       } else {
+  //         stopTimer();
 
-          if (_settings.autoTransition) {
-            switchZoneType(_zoneType.next);
-            startTimer();
-          }
-        }
-      });
-    });
+  //         if (_settings.autoTransition) {
+  //           switchZoneType(_zoneType.next);
+  //           startTimer();
+  //         }
+  //       }
+  //     });
+  //   });
 
-    setState(() => _zoneState = ZoneState.running);
-  }
+  //   setState(() => _zoneState = ZoneState.running);
+  // }
 
-  void pauseTimer() {
-    _timer?.cancel();
-    _timer = null;
+  // void pauseTimer() {
+  //   _timer?.cancel();
+  //   _timer = null;
 
-    setState(() => _zoneState = ZoneState.paused);
-  }
+  //   setState(() => _zoneState = ZoneState.paused);
+  // }
 
-  void stopTimer() {
-    _timer?.cancel();
-    _timer = null;
+  // void stopTimer() {
+  //   _timer?.cancel();
+  //   _timer = null;
 
-    setState(() {
-      _zoneState = ZoneState.stopped;
-      _currentDuration = getZoneTypeMaxDuration(_zoneType);
-    });
-  }
+  //   setState(() {
+  //     _zoneState = ZoneState.stopped;
+  //     _currentDuration = getZoneTypeMaxDuration(_zoneType);
+  //   });
+  // }
 
-  void switchZoneType(ZoneType state) {
-    setState(() {
-      _zoneType = state;
-      stopTimer();
+  // void switchZoneType(ZoneType state) {
+  //   setState(() {
+  //     _zoneType = state;
+  //     stopTimer();
 
-      switch (_zoneType) {
-        case ZoneType.pomodoro:
-          _currentDuration = _settings.pomodoroDuration;
-          break;
-        case ZoneType.shortBreak:
-          _currentDuration = _settings.shortBreakDuration;
-          break;
-        case ZoneType.longBreak:
-          _currentDuration = _settings.longBreakDuration;
-          break;
-      }
-    });
-  }
+  //     switch (_zoneType) {
+  //       case ZoneType.pomodoro:
+  //         _currentDuration = _settings.pomodoroDuration;
+  //         break;
+  //       case ZoneType.shortBreak:
+  //         _currentDuration = _settings.shortBreakDuration;
+  //         break;
+  //       case ZoneType.longBreak:
+  //         _currentDuration = _settings.longBreakDuration;
+  //         break;
+  //     }
+  //   });
+  // }
 
-  Widget buildZoneStateHeader(BuildContext context) {
+  Widget buildZoneStateHeader(BuildContext context, ZoneTimer timer) {
     var activeStyle = kSFTextStyle.copyWith(fontSize: 10, color: Colors.white);
     var inactiveStyle = kSFTextStyle.copyWith(fontSize: 10, color: kPurpleColor7);
 
     return Row(
       children: [
         GestureDetector(
-          onTap: () => switchZoneType(ZoneType.pomodoro),
+          onTap: () => timer.switchZoneType(ZoneType.pomodoro),
           child: Text(
             'POMODORO',
-            style: _zoneType == ZoneType.pomodoro ? activeStyle : inactiveStyle,
+            style: timer.zoneType == ZoneType.pomodoro ? activeStyle : inactiveStyle,
           ),
         ),
         const SizedBox(width: 15),
         GestureDetector(
-          onTap: () => switchZoneType(ZoneType.shortBreak),
+          onTap: () => timer.switchZoneType(ZoneType.shortBreak),
           child: Text(
             'SHORT BREAK',
-            style: _zoneType == ZoneType.shortBreak ? activeStyle : inactiveStyle,
+            style: timer.zoneType == ZoneType.shortBreak ? activeStyle : inactiveStyle,
           ),
         ),
         const SizedBox(width: 15),
         GestureDetector(
-          onTap: () => switchZoneType(ZoneType.longBreak),
+          onTap: () => timer.switchZoneType(ZoneType.longBreak),
           child: Text(
             'LONG BREAK',
-            style: _zoneType == ZoneType.longBreak ? activeStyle : inactiveStyle,
+            style: timer.zoneType == ZoneType.longBreak ? activeStyle : inactiveStyle,
           ),
         ),
       ],
     );
   }
 
-  Widget buildClockWidget(BuildContext context) {
+  Widget buildClockWidget(BuildContext context, ZoneTimer timer) {
     return Container(
       margin: const EdgeInsets.fromLTRB(75, 20, 75, 20),
       width: 190,
@@ -176,14 +158,14 @@ class _ZonePageState extends State<ZonePage> {
       ),
       child: Center(
         child: Text(
-          formatDuration(_currentDuration),
+          timer.currentDuration.toFormattedString(),
           style: kGoogleSansTextStyle.copyWith(fontSize: 33, color: Colors.white),
         ),
       ),
     );
   }
 
-  Widget buildControlButtons(BuildContext context) {
+  Widget buildControlButtons(BuildContext context, ZoneTimer timer) {
     return Material(
       color: Colors.transparent,
       child: Row(
@@ -198,11 +180,7 @@ class _ZonePageState extends State<ZonePage> {
             child: IconButton(
               icon: const Icon(Icons.refresh),
               color: Colors.white,
-              onPressed: () {
-                setState(() {
-                  stopTimer();
-                });
-              },
+              onPressed: () => timer.stopTimer(),
             ),
           ),
           const SizedBox(width: 15),
@@ -219,18 +197,14 @@ class _ZonePageState extends State<ZonePage> {
               shape: CircleBorder(),
             ),
             child: IconButton(
-              icon: Icon(_zoneState == ZoneState.running ? Icons.pause : Icons.play_arrow),
+              icon: Icon(timer.zoneState == ZoneState.running ? Icons.pause : Icons.play_arrow),
               color: Colors.white,
               onPressed: () {
                 setState(() {
-                  switch (_zoneState) {
-                    case ZoneState.running:
-                      pauseTimer();
-                      break;
-                    case ZoneState.paused:
-                    case ZoneState.stopped:
-                      startTimer();
-                      break;
+                  if (timer.zoneState == ZoneState.running) {
+                    timer.pauseTimer();
+                  } else {
+                    timer.startTimer();
                   }
                 });
               },
@@ -248,14 +222,11 @@ class _ZonePageState extends State<ZonePage> {
               onPressed: () async {
                 var result = await showModalBottomSheet<ZoneSettings>(
                   context: context,
-                  builder: (BuildContext context) => ZonePopup(settings: _settings),
+                  builder: (BuildContext context) => ZonePopup(settings: timer.settings),
                 );
 
                 if (result != null) {
-                  setState(() {
-                    _settings = result;
-                    switchZoneType(_zoneType);
-                  });
+                  timer.updateSettings(result);
                 }
               },
             ),
@@ -265,21 +236,14 @@ class _ZonePageState extends State<ZonePage> {
     );
   }
 
-  String formatDuration(Duration duration) {
-    String twoDigits(int n) => n.toString().padLeft(2, '0');
-    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
-    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
-    return '$twoDigitMinutes:$twoDigitSeconds';
-  }
-
-  Duration getZoneTypeMaxDuration(ZoneType type) {
-    switch (type) {
-      case ZoneType.pomodoro:
-        return _settings.pomodoroDuration;
-      case ZoneType.shortBreak:
-        return _settings.shortBreakDuration;
-      case ZoneType.longBreak:
-        return _settings.longBreakDuration;
-    }
-  }
+  // Duration getZoneTypeMaxDuration(ZoneType type) {
+  //   switch (type) {
+  //     case ZoneType.pomodoro:
+  //       return _settings.pomodoroDuration;
+  //     case ZoneType.shortBreak:
+  //       return _settings.shortBreakDuration;
+  //     case ZoneType.longBreak:
+  //       return _settings.longBreakDuration;
+  //   }
+  // }
 }

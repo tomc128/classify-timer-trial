@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:timer_trial/constants.dart';
 import 'package:timer_trial/duration_extensions.dart';
+import 'package:timer_trial/widgets/zone_switch.dart';
 import 'package:timer_trial/zone/zone_timer.dart';
 
 class ZonePopup extends StatefulWidget {
@@ -52,22 +53,22 @@ class _ZonePopupState extends State<ZonePopup> {
               ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Auto-transition timer",
-                style: kGoogleSansTextStyle.copyWith(color: Colors.white, fontSize: 15),
-              ),
-              Switch(
-                value: widget.settings.autoTransition,
-                onChanged: (value) => {
-                  setState(() {
-                    _settings.autoTransition = value;
-                  })
-                },
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Auto-transition timer",
+                  style: kGoogleSansTextStyle.copyWith(color: Colors.white, fontSize: 15),
+                ),
+                const SizedBox(width: 25),
+                ZoneSwitch(
+                  value: _settings.autoTransition,
+                  onChanged: (value) => setState(() => _settings.autoTransition = value),
+                ),
+              ],
+            ),
           ),
           buildSlider('Pomodoro', _settings.pomodoroDuration, (duration) {
             _settings.pomodoroDuration = duration;

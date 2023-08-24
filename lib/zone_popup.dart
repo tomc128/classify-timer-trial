@@ -21,7 +21,12 @@ class _ZonePopupState extends State<ZonePopup> {
   void initState() {
     super.initState();
 
-    _settings = widget.settings;
+    _settings = ZoneSettings(
+      pomodoroDuration: widget.settings.pomodoroDuration,
+      shortBreakDuration: widget.settings.shortBreakDuration,
+      longBreakDuration: widget.settings.longBreakDuration,
+      autoTransition: widget.settings.autoTransition,
+    );
   }
 
   @override

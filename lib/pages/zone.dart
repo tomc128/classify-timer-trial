@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timer_trial/duration_extensions.dart';
+import 'package:timer_trial/widgets/zone_switch.dart';
 import 'package:timer_trial/zone/zone_popup.dart';
 import 'package:timer_trial/zone/zone_timer.dart';
 
@@ -14,6 +15,8 @@ class ZonePage extends StatefulWidget {
 }
 
 class _ZonePageState extends State<ZonePage> {
+  bool val = false;
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -46,11 +49,18 @@ class _ZonePageState extends State<ZonePage> {
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 buildZoneStateHeader(context, timer),
                 buildClockWidget(context, timer),
                 buildControlButtons(context, timer),
+                ZoneSwitch(
+                    value: val,
+                    onChanged: (v) {
+                      setState(() {
+                        val = v;
+                      });
+                    }),
               ],
             ),
           ),

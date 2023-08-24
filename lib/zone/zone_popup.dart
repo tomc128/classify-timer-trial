@@ -54,7 +54,7 @@ class _ZonePopupState extends State<ZonePopup> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
+            padding: const EdgeInsets.symmetric(vertical: 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -104,27 +104,36 @@ class _ZonePopupState extends State<ZonePopup> {
 
   Widget buildSlider(String label, Duration duration, void Function(Duration) onChanged) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+      padding: const EdgeInsets.fromLTRB(20, 10, 30, 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            label,
-            style: kGoogleSansTextStyle.copyWith(color: Colors.white, fontSize: 15),
+          Padding(
+            padding: const EdgeInsets.only(left: 15), // Align text with slider
+            child: Text(
+              label,
+              style: kGoogleSansTextStyle.copyWith(color: Colors.white, fontSize: 15),
+            ),
           ),
           Row(
             mainAxisSize: MainAxisSize.max,
             children: [
               Expanded(
-                child: Slider(
-                  value: duration.inSeconds.toDouble(),
-                  min: 30,
-                  max: 3600,
-                  divisions: 119,
-                  label: duration.toFormattedString(),
-                  onChanged: (value) {
-                    setState(() => onChanged(Duration(seconds: value.toInt())));
-                  },
+                child: SliderTheme(
+                  data: const SliderThemeData(
+                    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 7),
+                  ),
+                  child: Slider(
+                    value: duration.inSeconds.toDouble(),
+                    min: 30,
+                    max: 3600,
+                    divisions: 119,
+                    label: duration.toFormattedString(),
+                    onChanged: (value) {
+                      setState(() => onChanged(Duration(seconds: value.toInt())));
+                    },
+                    activeColor: kPurpleColor1,
+                  ),
                 ),
               ),
               Text(

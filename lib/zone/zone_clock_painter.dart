@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:timer_trial/constants.dart';
 
 class ZoneClockPainter extends CustomPainter {
   final double progress;
@@ -11,11 +12,8 @@ class ZoneClockPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // draw a outlined circle with a radius to fill the canvas
-    // the percentage of the path drawn should be the progress
-
     final paint = Paint()
-      ..color = Colors.white
+      ..color = kPurpleColor2
       ..strokeWidth = 4
       ..style = PaintingStyle.stroke;
 
@@ -25,15 +23,16 @@ class ZoneClockPainter extends CustomPainter {
     canvas.drawCircle(center, radius, paint);
 
     final progressPaint = Paint()
-      ..color = Colors.red
-      ..strokeWidth = 4
+      ..color = homePink
+      ..strokeWidth = 5
+      ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
     final progressPath = Path()
       ..addArc(
         Rect.fromCircle(center: center, radius: radius),
         -pi / 2,
-        2 * pi * progress,
+        -2 * pi * (1 - progress),
       );
 
     canvas.drawPath(progressPath, progressPaint);

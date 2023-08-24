@@ -168,6 +168,7 @@ class _ZonePageState extends State<ZonePage> {
                 var result = await showModalBottomSheet<ZoneSettings>(
                   context: context,
                   builder: (BuildContext context) => ZonePopup(settings: timer.settings),
+                  backgroundColor: Colors.transparent,
                 );
 
                 if (result != null) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timer_trial/constants.dart';
 import 'package:timer_trial/duration_extensions.dart';
 import 'package:timer_trial/zone/zone_timer.dart';
 
@@ -31,77 +32,108 @@ class _ZonePopupState extends State<ZonePopup> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text("Auto-transition timer"),
-            Switch(
-              value: widget.settings.autoTransition,
-              onChanged: (value) => {
-                setState(() {
-                  _settings.autoTransition = value;
-                })
-              },
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+        color: kPurpleColor3,
+      ),
+      child: Column(
+        children: [
+          SizedBox(
+            width: 125,
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 15),
+              child: Container(
+                height: 3,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(1.5)),
+                ),
+              ),
             ),
-          ],
-        ),
-        buildSlider('Pomodoro', _settings.pomodoroDuration, (duration) {
-          _settings.pomodoroDuration = duration;
-        }),
-        buildSlider('Short Break', _settings.shortBreakDuration, (duration) {
-          _settings.shortBreakDuration = duration;
-        }),
-        buildSlider('Long Break', _settings.longBreakDuration, (duration) {
-          _settings.longBreakDuration = duration;
-        }),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            OutlinedButton(
-              onPressed: () {
-                Navigator.pop(context, null);
-              },
-              child: const Text('Cancel'),
-            ),
-            const SizedBox(width: 10),
-            FilledButton(
-              onPressed: () {
-                Navigator.pop(context, _settings);
-              },
-              child: const Text('Save'),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget buildSlider(String label, Duration duration, void Function(Duration) onChanged) {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(label),
-              Slider(
-                value: duration.inSeconds.toDouble(),
-                min: 30,
-                max: 3600,
-                divisions: 119,
-                label: duration.toFormattedString(),
-                onChanged: (value) {
-                  setState(() => onChanged(Duration(seconds: value.toInt())));
+              Text(
+                "Auto-transition timer",
+                style: kGoogleSansTextStyle.copyWith(color: Colors.white, fontSize: 15),
+              ),
+              Switch(
+                value: widget.settings.autoTransition,
+                onChanged: (value) => {
+                  setState(() {
+                    _settings.autoTransition = value;
+                  })
                 },
               ),
             ],
           ),
-        ),
-        Text(duration.toFormattedString()),
-      ],
+          buildSlider('Pomodoro', _settings.pomodoroDuration, (duration) {
+            _settings.pomodoroDuration = duration;
+          }),
+          buildSlider('Short Break', _settings.shortBreakDuration, (duration) {
+            _settings.shortBreakDuration = duration;
+          }),
+          buildSlider('Long Break', _settings.longBreakDuration, (duration) {
+            _settings.longBreakDuration = duration;
+          }),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              OutlinedButton(
+                onPressed: () {
+                  Navigator.pop(context, null);
+                },
+                child: const Text('Cancel'),
+              ),
+              const SizedBox(width: 10),
+              FilledButton(
+                onPressed: () {
+                  Navigator.pop(context, _settings);
+                },
+                child: const Text('Save'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildSlider(String label, Duration duration, void Function(Duration) onChanged) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: kGoogleSansTextStyle.copyWith(color: Colors.white, fontSize: 15),
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
+                child: Slider(
+                  value: duration.inSeconds.toDouble(),
+                  min: 30,
+                  max: 3600,
+                  divisions: 119,
+                  label: duration.toFormattedString(),
+                  onChanged: (value) {
+                    setState(() => onChanged(Duration(seconds: value.toInt())));
+                  },
+                ),
+              ),
+              Text(
+                duration.toFormattedString(),
+                style: kGoogleSansTextStyle.copyWith(color: kPurpleColor1, fontSize: 25),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

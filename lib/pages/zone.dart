@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timer_trial/duration_extensions.dart';
+import 'package:timer_trial/zone/zone_clock_painter.dart';
 import 'package:timer_trial/zone/zone_popup.dart';
 import 'package:timer_trial/zone/zone_timer.dart';
 
@@ -94,18 +95,23 @@ class _ZonePageState extends State<ZonePage> {
 
   Widget buildClockWidget(BuildContext context, ZoneTimer timer) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(75, 20, 75, 20),
       width: 190,
       height: 190,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(1000),
-        border: Border.all(color: homePink, width: 5),
-      ),
-      child: Center(
-        child: Text(
-          timer.currentDuration.toFormattedString(),
-          style: kGoogleSansTextStyle.copyWith(fontSize: 33, color: Colors.white),
-        ),
+      margin: const EdgeInsets.fromLTRB(75, 20, 75, 20),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          CustomPaint(
+            size: const Size(190, 190),
+            painter: ZoneClockPainter(
+              progress: timer.progress,
+            ),
+          ),
+          Text(
+            timer.currentDuration.toFormattedString(),
+            style: kGoogleSansTextStyle.copyWith(fontSize: 33, color: Colors.white),
+          ),
+        ],
       ),
     );
   }

@@ -15,6 +15,8 @@ class ZoneTimer extends ChangeNotifier {
   Duration _currentDuration = const Duration(minutes: 25);
   Duration get currentDuration => _currentDuration;
 
+  double get progress => 1 - (_currentDuration.inSeconds / getZoneTypeDuration(_zoneType).inSeconds);
+
   ZoneSettings settings = ZoneSettings(
     pomodoroDuration: const Duration(seconds: 35),
     shortBreakDuration: const Duration(seconds: 30),

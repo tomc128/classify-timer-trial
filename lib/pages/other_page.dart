@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:timer_trial/duration_extensions.dart';
+import 'package:timer_trial/zone_timer_provider.dart';
 
 class OtherPage extends StatefulWidget {
   const OtherPage({super.key});
@@ -10,11 +13,11 @@ class OtherPage extends StatefulWidget {
 class _OtherPageState extends State<OtherPage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: const Center(
-        child: Text(
-          "<Other Page>",
-          style: TextStyle(
+    return Center(
+      child: Consumer<ZoneTimer>(
+        builder: (context, timer, _) => Text(
+          'The timer is at: ${timer.currentDuration.toFormattedString()}',
+          style: const TextStyle(
             fontSize: 20,
             color: Colors.white,
           ),

@@ -83,6 +83,12 @@ class _ZonePopupState extends State<ZonePopup> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: kPurpleColor1,
+                  side: const BorderSide(color: kPurpleColor1),
+                  shape: const StadiumBorder(),
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                ),
                 onPressed: () {
                   Navigator.pop(context, null);
                 },
@@ -90,6 +96,10 @@ class _ZonePopupState extends State<ZonePopup> {
               ),
               const SizedBox(width: 10),
               FilledButton(
+                style: FilledButton.styleFrom(
+                  backgroundColor: kPurpleColor1,
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                ),
                 onPressed: () {
                   Navigator.pop(context, _settings);
                 },

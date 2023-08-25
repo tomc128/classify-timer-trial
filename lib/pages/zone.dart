@@ -184,6 +184,7 @@ class _ZonePageState extends State<ZonePage> {
 
               if (result != null) {
                 timer.updateSettings(result);
+                timer.stopTimer();
               }
             },
           ),

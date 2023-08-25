@@ -24,17 +24,22 @@ class _ZonePageState extends State<ZonePage> {
         children: [
           Container(
             height: 190,
+            width: double.infinity,
             decoration: BoxDecoration(
               color: kHeaderPink,
               borderRadius: BorderRadius.only(
-                bottomLeft: Radius.elliptical(screenWidth / 2, 30),
-                bottomRight: Radius.elliptical(screenWidth / 2, 30),
+                bottomLeft: Radius.elliptical(screenWidth, 25),
+                bottomRight: Radius.elliptical(screenWidth, 25),
               ),
             ),
-            child: const Center(
-              child: Image(
-                image: AssetImage('assets/icons/icons8_tomato_96px_3.png'),
-                width: 26,
+            child: Transform(
+              transform: Matrix4.translationValues(0, -30, 0),
+              child: const Center(
+                child: Image(
+                  image: AssetImage('assets/icons/icons8_tomato_96px_3.png'),
+                  width: 26,
+                  height: 26,
+                ),
               ),
             ),
           ),

@@ -14,11 +14,11 @@ class ZoneClockPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..color = kPurpleColor2
-      ..strokeWidth = 4
+      ..strokeWidth = 5
       ..style = PaintingStyle.stroke;
 
     final center = Offset(size.width / 2, size.height / 2);
-    final radius = min(size.width / 2, size.height / 2) - 2;
+    final radius = min(size.width / 2, size.height / 2);
 
     canvas.drawCircle(center, radius, paint);
 

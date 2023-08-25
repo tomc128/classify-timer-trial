@@ -34,10 +34,20 @@ class _ZonePopupState extends State<ZonePopup> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
-        color: kPurpleColor3,
-      ),
+      decoration: BoxDecoration(borderRadius: const BorderRadius.vertical(top: Radius.circular(10)), color: kPurpleColor3, boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.4),
+          spreadRadius: 25,
+          blurRadius: 100,
+          offset: Offset.zero,
+        ),
+        BoxShadow(
+          color: Colors.black.withOpacity(0.2),
+          spreadRadius: 10,
+          blurRadius: 50,
+          offset: Offset.zero,
+        ),
+      ]),
       child: Column(
         children: [
           SizedBox(

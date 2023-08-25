@@ -180,6 +180,7 @@ class _ZonePageState extends State<ZonePage> {
                 context: context,
                 builder: (BuildContext context) => ZonePopup(settings: timer.settings),
                 backgroundColor: Colors.transparent,
+                barrierColor: Colors.black.withOpacity(0.15),
               );
 
               if (result != null) {
